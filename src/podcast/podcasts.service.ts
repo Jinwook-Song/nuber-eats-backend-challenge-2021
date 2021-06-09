@@ -31,6 +31,8 @@ import {
   CreateReviewOutput
 } from "./dtos/create-review.dto";
 import { User } from "src/users/entities/user.entity";
+import { MyPodcastsOutput } from "./dtos/my-podcasts.dto";
+import { MyPodcastInput, MyPodcastOutput } from "./dtos/my-podcast.dto";
 
 @Injectable()
 export class PodcastsService {
@@ -74,6 +76,42 @@ export class PodcastsService {
       };
     } catch (e) {
       return this.InternalServerErrorOutput;
+    }
+  }
+
+  async myPodcasts(creator: User): Promise<MyPodcastsOutput> {
+    try {
+      const podcasts = await this.podcastRepository.find({ creator });
+      return {
+        ok: true,
+        podcasts,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        error: 'Could not find podcasts',
+      };
+    }
+  }
+
+  async myPodcast(
+    creator: User,
+    { id }: MyPodcastInput,
+  ): Promise<MyPodcastOutput> {
+    try {
+      const podcast = await this.podcastRepository.findOne(
+        { creator, id },
+        // { relations: ['menu', 'orders'] },
+      );
+      return {
+        ok: true,
+        podcast,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: 'Could not find podcast',
+      };
     }
   }
 
