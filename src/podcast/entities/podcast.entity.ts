@@ -30,7 +30,6 @@ export class Podcast extends CoreEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.podcasts, {
     onDelete: 'CASCADE',
-    eager: true,
   })
   creator: User;
 
