@@ -1,11 +1,12 @@
-import { Episode } from "./episode.entity";
-import { ObjectType, Field } from "@nestjs/graphql";
-import { IsString, Min, Max, IsNumber } from "class-validator";
-import { Column, Entity, OneToMany, ManyToOne, RelationId } from "typeorm";
-import { CoreEntity } from "./core.entity";
-import { Review } from "./review.entity";
-import { User } from "../../users/entities/user.entity";
+import { Episode } from './episode.entity';
+import { ObjectType, Field, InputType } from '@nestjs/graphql';
+import { IsString, Min, Max, IsNumber } from 'class-validator';
+import { Column, Entity, OneToMany, ManyToOne, RelationId } from 'typeorm';
+import { CoreEntity } from './core.entity';
+import { Review } from './review.entity';
+import { User } from '../../users/entities/user.entity';
 
+@InputType('PodcastInputType', { isAbstract: true })
 @Entity()
 @ObjectType()
 export class Podcast extends CoreEntity {
@@ -28,7 +29,7 @@ export class Podcast extends CoreEntity {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.podcasts, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   creator: User;
 
