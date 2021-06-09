@@ -30,17 +30,22 @@ export class Podcast extends CoreEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.podcasts, {
     onDelete: 'CASCADE',
+    eager: true,
   })
   creator: User;
 
   @RelationId((podcast: Podcast) => podcast.creator)
   creatorId: number;
 
-  @OneToMany(() => Episode, (episode) => episode.podcast)
+  @OneToMany(() => Episode, (episode) => episode.podcast, {
+    eager: true,
+  })
   @Field((type) => [Episode])
   episodes: Episode[];
 
-  @OneToMany(() => Review, (review) => review.podcast)
+  @OneToMany(() => Review, (review) => review.podcast, {
+    eager: true,
+  })
   @Field((type) => [Review])
   reviews: Review[];
 }
