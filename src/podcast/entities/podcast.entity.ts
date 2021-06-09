@@ -36,15 +36,11 @@ export class Podcast extends CoreEntity {
   @RelationId((podcast: Podcast) => podcast.creator)
   creatorId: number;
 
-  @OneToMany(() => Episode, (episode) => episode.podcast, {
-    eager: true,
-  })
+  @OneToMany(() => Episode, (episode) => episode.podcast, {})
   @Field((type) => [Episode])
   episodes: Episode[];
 
-  @OneToMany(() => Review, (review) => review.podcast, {
-    eager: true,
-  })
+  @OneToMany(() => Review, (review) => review.podcast, {})
   @Field((type) => [Review])
   reviews: Review[];
 }
