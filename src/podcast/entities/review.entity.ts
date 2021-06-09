@@ -1,12 +1,13 @@
-import { ObjectType, Field } from "@nestjs/graphql";
-import { IsString } from "class-validator";
-import { Column, Entity, ManyToOne } from "typeorm";
-import { CoreEntity } from "./core.entity";
-import { Podcast } from "./podcast.entity";
-import { User } from "../../users/entities/user.entity";
+import { ObjectType, Field, InputType } from '@nestjs/graphql';
+import { IsString } from 'class-validator';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { CoreEntity } from './core.entity';
+import { Podcast } from './podcast.entity';
+import { User } from '../../users/entities/user.entity';
 
-@Entity()
+@InputType('ReviewInputType', { isAbstract: true })
 @ObjectType()
+@Entity()
 export class Review extends CoreEntity {
   @Column()
   @Field((type) => String)
@@ -19,13 +20,13 @@ export class Review extends CoreEntity {
   text: string;
 
   @ManyToOne(() => Podcast, (podcast) => podcast.reviews, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   @Field((type) => Podcast)
   podcast: Podcast;
 
   @ManyToOne(() => User, (user) => user.reviews, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   @Field((type) => User)
   creator: User;

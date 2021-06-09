@@ -247,7 +247,7 @@ export class PodcastsService {
     try {
       const { podcast, ok, error } = await this.getPodcast(podcastId);
       if (!ok) {
-        return { ok, error };
+        return { ok: false , error: 'Podcast not found' };
       }
       if (podcast.creator.id !== user.id) {
         return { ok: false, error: 'Not authorized' };

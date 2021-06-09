@@ -11,6 +11,6 @@ export class CreatePodcastInput extends PickType(
 
 @ObjectType()
 export class CreatePodcastOutput extends CoreOutput {
-  @Field(type => Int, { nullable: true })
+  @Field((type) => Int, { nullable: true })
   id?: number;
 }
