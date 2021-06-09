@@ -5,6 +5,7 @@ import { Column, Entity, OneToMany, ManyToOne, RelationId } from 'typeorm';
 import { CoreEntity } from './core.entity';
 import { Review } from './review.entity';
 import { User } from '../../users/entities/user.entity';
+import { truncate } from 'fs';
 
 @InputType('PodcastInputType', { isAbstract: true })
 @Entity()
@@ -36,11 +37,11 @@ export class Podcast extends CoreEntity {
   @RelationId((podcast: Podcast) => podcast.creator)
   creatorId: number;
 
-  @OneToMany(() => Episode, (episode) => episode.podcast, {})
-  @Field((type) => [Episode])
-  episodes: Episode[];
+  @OneToMany(() => Episode, (episode) => episode.podcast, { nullable: true })
+  @Field((type) => [Episode], { nullable: true })
+  episodes?: Episode[];
 
-  @OneToMany(() => Review, (review) => review.podcast, {})
-  @Field((type) => [Review])
-  reviews: Review[];
+  @OneToMany(() => Review, (review) => review.podcast, { nullable: true })
+  @Field((type) => [Review], { nullable: true })
+  reviews?: Review[];
 }
