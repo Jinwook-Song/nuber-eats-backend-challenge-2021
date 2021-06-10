@@ -1,6 +1,6 @@
 import { ObjectType, Field, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 import { CoreEntity } from './core.entity';
 import { Podcast } from './podcast.entity';
 
@@ -24,4 +24,7 @@ export class Episode extends CoreEntity {
   })
   @Field((type) => Podcast)
   podcast: Podcast;
+
+  @RelationId((episode: Episode) => episode.podcast)
+  podcastId: number;
 }

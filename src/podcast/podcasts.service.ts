@@ -33,6 +33,7 @@ import {
 import { User } from 'src/users/entities/user.entity';
 import { MyPodcastsOutput } from './dtos/my-podcasts.dto';
 import { MyPodcastInput, MyPodcastOutput } from './dtos/my-podcast.dto';
+import { MyEpisodeInput, MyEpisodeOutput } from './dtos/my-episode.dto';
 
 @Injectable()
 export class PodcastsService {
@@ -261,6 +262,31 @@ export class PodcastsService {
       };
     } catch (e) {
       return this.InternalServerErrorOutput;
+    }
+  }
+
+  async myEpisode(
+    creator: User,
+    { id, podcastId }: MyEpisodeInput,
+  ): Promise<MyEpisodeOutput> {
+    try {
+      const { podcast, ok, error } = await this.getPodcast(podcastId);
+      if (!ok) {
+        return { ok: false, error: 'Podcast not found' };
+      }
+      if (podcast.creator.id !== creator.id) {
+        return { ok: false, error: 'Not authorized' };
+      }
+      const episode = podcast.episodes.find((episode) => episode.id === id);
+      return {
+        ok: true,
+        episode,
+      };
+    } catch {
+      return {
+        ok: false,
+        error: 'Could not find episode',
+      };
     }
   }
 
