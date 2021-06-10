@@ -166,11 +166,11 @@ export class PodcastsService {
       }
       if (
         payload.rating !== null &&
-        (payload.rating < 1 || payload.rating > 5)
+        (payload.rating < 0 || payload.rating > 5)
       ) {
         return {
           ok: false,
-          error: 'Rating must be between 1 and 5.',
+          error: 'Rating must be between 0 and 5.',
         };
       } else {
         const updatedPodcast: Podcast = { ...podcast, ...payload };
