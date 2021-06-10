@@ -1,6 +1,6 @@
 import { Episode } from './episode.entity';
 import { ObjectType, Field, InputType } from '@nestjs/graphql';
-import { IsString, Min, Max, IsNumber } from 'class-validator';
+import { IsString, Min, Max, IsNumber, IsPositive } from 'class-validator';
 import { Column, Entity, OneToMany, ManyToOne, RelationId } from 'typeorm';
 import { CoreEntity } from './core.entity';
 import { Review } from './review.entity';
@@ -21,9 +21,9 @@ export class Podcast extends CoreEntity {
   @IsString()
   category: string;
 
-  @Column({ default: 0 })
+  @Column({type:'float', default: 0 })
   @Field((type) => Number)
-  @IsNumber()
+  @IsPositive()
   @Min(0)
   @Max(5)
   rating: number;
