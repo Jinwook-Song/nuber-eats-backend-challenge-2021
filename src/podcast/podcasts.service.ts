@@ -321,6 +321,10 @@ export class PodcastsService {
     { podcastId, episodeId, ...rest }: UpdateEpisodeInput,
   ): Promise<CoreOutput> {
     try {
+      const {podcast, ok: successGet, error: failGet} = await this.getPodcast(podcastId)
+      if(!successGet) {
+        return {ok:successGet, error:failGet}
+      }
       const { episode, ok, error } = await this.getEpisode({
         podcastId,
         episodeId,
@@ -328,7 +332,7 @@ export class PodcastsService {
       if (!ok) {
         return { ok, error };
       }
-      if (episode.podcast.creator.id !== user.id) {
+      if (podcast.creator.id !== user.id) {
         return { ok: false, error: 'Not authorized' };
       }
       const updatedEpisode = { ...episode, ...rest };
